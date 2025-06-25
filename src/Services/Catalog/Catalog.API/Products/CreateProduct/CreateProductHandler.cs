@@ -5,23 +5,23 @@ namespace Catalog.API.Models.Products.CreateProduct;
 
 // todo: is there a way to use the Product class here instead of duplicating the properties?
 // the data we need to create a product is the same as the Product class, but we don't want to expose the entire Product class in the API.
-public record CreateProductRequest(
+public record CreateProductCommand(
     string Name,
     List<string> Category,
     string Description,
     string ImageFile,
     decimal Price
-) : IRequest<CreateProductResponse>;
+) : IRequest<CreateProductResult>;
 
 // represents the result/response of the CreateProduct command
-public record CreateProductResponse(
+public record CreateProductResult(
     Guid Id
 );
 
-internal class CreateProductCommandHandler : IRequestHandler<CreateProductRequest, CreateProductResponse>
+internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
 {
 
-    public async Task<CreateProductResponse> Handle(CreateProductRequest request, CancellationToken cancellationToken)
+    public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = new Product
         {
@@ -34,6 +34,6 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductReques
         };
 
         //save to database here
-        return new CreateProductResponse(Guid.NewGuid());
+        return new CreateProductResult(Guid.NewGuid());
     }
 }
