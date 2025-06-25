@@ -1,3 +1,4 @@
+
 using MediatR;
 
 namespace Catalog.API.Models.Products.CreateProduct;
@@ -19,9 +20,20 @@ public record CreateProductResponse(
 
 internal class CreateProductCommandHandler : IRequestHandler<CreateProductRequest, CreateProductResponse>
 {
-    public Task<CreateProductResponse> Handle(CreateProductRequest request, CancellationToken cancellationToken)
+
+    public async Task<CreateProductResponse> Handle(CreateProductRequest request, CancellationToken cancellationToken)
     {
-        // todo: implement the logic to create a product
-        throw new NotImplementedException();
+        var product = new Product
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Category = request.Category,
+            Description = request.Description,
+            ImageFile = request.ImageFile,
+            Price = request.Price
+        };
+
+        //save to database here
+        return new CreateProductResponse(Guid.NewGuid());
     }
 }
