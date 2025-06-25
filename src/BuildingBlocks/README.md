@@ -1,0 +1,1 @@
+- This library contains common code that each microservice can implement in order to acheive the CQRS pattern adherence using MediatR
