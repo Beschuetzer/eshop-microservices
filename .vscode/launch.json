@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Catalog API (https)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-catalog-api",
+            "program": "${workspaceFolder}/src/Services/Catalog/Catalog.API/bin/Debug/net8.0/Catalog.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Catalog/Catalog.API",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "https://localhost:5050;http://localhost:5000"
+            },
+            "console": "internalConsole"
+        }
+    ]
+}
