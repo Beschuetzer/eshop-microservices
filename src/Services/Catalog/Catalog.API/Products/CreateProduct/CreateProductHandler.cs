@@ -1,6 +1,3 @@
-
-using MediatR;
-
 namespace Catalog.API.Models.Products.CreateProduct;
 
 // todo: is there a way to use the Product class here instead of duplicating the properties?
