@@ -15,14 +15,14 @@ public record CreateProductResult(
     Guid Id
 );
 
-internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
+//injecting Marten's IDocumentSession to handle database operations
+internal class CreateProductCommandHandler(IDocumentSession session) : IRequestHandler<CreateProductCommand, CreateProductResult>
 {
 
     public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = new Product
         {
-            Id = Guid.NewGuid(),
             Name = request.Name,
             Category = request.Category,
             Description = request.Description,
@@ -30,7 +30,9 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
             Price = request.Price
         };
 
-        //save to database here
-        return new CreateProductResult(Guid.NewGuid());
+        Console.WriteLine($"Creating product: {product.Name} with price: {product.Price}");
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
+        return new CreateProductResult(product.Id);
     }
 }
