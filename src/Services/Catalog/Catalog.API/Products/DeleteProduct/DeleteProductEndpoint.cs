@@ -1,9 +1,11 @@
 namespace Catalog.API.Products.DeleteProduct;
+
 public record DeleteProductRequest(
     Guid ProductId
 ) : IRequest<DeleteProductResponse>;
 
 public record DeleteProductResponse(
+    string Message,
     bool IsSuccess
 );
 
@@ -13,9 +15,21 @@ public class DeleteProductEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId:guid}", async (Guid productId, ISender sender) =>
         {
-            var result = await sender.Send(new DeleteProductCommand(productId));
-            var response = result.Adapt<DeleteProductResponse>();
-            return response;
+            try
+            {
+                var result = await sender.Send(new DeleteProductCommand(productId));
+                var response = result.Adapt<DeleteProductResponse>();
+                return Results.Ok(response);
+            }
+            catch (ValidationException ex)
+            {
+                return Results.BadRequest(new DeleteProductResponse(ex.Message, false));
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("Something went wrong while deleting the product.");
+            }
+
         })
             .WithName("DeleteProduct")
             .WithSummary("Deletes an existing product")
