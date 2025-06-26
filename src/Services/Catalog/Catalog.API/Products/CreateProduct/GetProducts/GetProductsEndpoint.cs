@@ -1,8 +1,3 @@
-
-public record GetProductsRequest(
-    Guid Id
-    ) : IQuery<GetProductsResponse>;
-
 public record GetProductsResponse(
     IEnumerable<Product> Products
 );
