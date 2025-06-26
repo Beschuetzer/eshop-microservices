@@ -15,20 +15,9 @@ public class DeleteProductEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId:guid}", async (Guid productId, ISender sender) =>
         {
-            try
-            {
-                var result = await sender.Send(new DeleteProductCommand(productId));
-                var response = result.Adapt<DeleteProductResponse>();
-                return Results.Ok(response);
-            }
-            catch (ValidationException ex)
-            {
-                return Results.BadRequest(new DeleteProductResponse(ex.Message, false));
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem("Something went wrong while deleting the product.");
-            }
+            var result = await sender.Send(new DeleteProductCommand(productId));
+            var response = result.Adapt<DeleteProductResponse>();
+            return Results.Ok(response);
 
         })
             .WithName("DeleteProduct")
