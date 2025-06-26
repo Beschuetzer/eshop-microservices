@@ -18,12 +18,6 @@ internal class GetProductByCategoryQueryHandler(IDocumentSession session, ILogge
             .Where(p => p.Category.Contains(query.Category))
             .ToListAsync(cancellationToken);
 
-        if (!products.Any())
-        {
-            logger.LogWarning("No products found for category {Category}.", query.Category);
-            throw new ProductNotFoundException($"No products found for category '{query.Category}'.");
-        }
-
         return new GetProductByCategoryResult(products);
     }
 }
