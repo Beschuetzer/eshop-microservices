@@ -15,20 +15,20 @@ public record UpdateProductResult(
 
 internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger) : IRequestHandler<UpdateProductCommand, UpdateProductResult>
 {
-    public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        var product = await session.LoadAsync<Product>(request.Id, cancellationToken);
+        var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
         if (product == null)
         {
-            logger.LogWarning("Product with ID {Id} not found", request.Id);
-            throw new ProductNotFoundException(request.Id);
+            logger.LogWarning("Product with ID {Id} not found", command.Id);
+            throw new ProductNotFoundException(command.Id);
         }
 
-        product.Name = request.Name;
-        product.Category = request.Category;
-        product.ImageFile = request.ImageFile;
-        product.Description = request.Description;
-        product.Price = request.Price;
+        product.Name = command.Name;
+        product.Category = command.Category;
+        product.ImageFile = command.ImageFile;
+        product.Description = command.Description;
+        product.Price = command.Price;
 
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);
