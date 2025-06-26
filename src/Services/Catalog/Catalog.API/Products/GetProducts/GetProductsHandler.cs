@@ -1,4 +1,6 @@
-public record GetProductQuery(): IQuery<GetProductsResult>;
+namespace Catalog.API.Models.Products.GetProducts;
+
+public record GetProductQuery() : IQuery<GetProductsResult>;
 public record GetProductsResult(
     IEnumerable<Product> Products
 );

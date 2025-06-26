@@ -1,3 +1,5 @@
+namespace Catalog.API.Models.Products.GetProducts;
+
 public record GetProductsResponse(
     IEnumerable<Product> Products
 );
