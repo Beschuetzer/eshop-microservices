@@ -19,10 +19,22 @@ public class UpdateProductEndpoint : ICarterModule
     {
         app.MapPut("/products", async (UpdateProductRequest request, ISender sender) =>
         {
-            var command = request.Adapt<UpdateProductCommand>();
-            var result = await sender.Send(command);
-            var response = result.Adapt<UpdateProductResponse>();
-            return Results.Ok(response);
+            try
+            {
+                var command = request.Adapt<UpdateProductCommand>();
+                var result = await sender.Send(command);
+                var response = result.Adapt<UpdateProductResponse>();
+                return Results.Ok(response);
+            }
+            catch (ValidationException ex)
+            {
+                return Results.BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("Something went wrong while updating the product.");
+            }
+
         })
             .WithName("UpdateProduct")
             .WithSummary("Updates an existing product")
