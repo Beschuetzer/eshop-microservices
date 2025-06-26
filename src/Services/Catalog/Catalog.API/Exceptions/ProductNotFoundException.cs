@@ -7,6 +7,11 @@ public class ProductNotFoundException : Exception
     {
     }
 
+     public ProductNotFoundException(string message)
+        : base(message)
+    {
+    }
+
     public ProductNotFoundException(Guid productId, Exception innerException)
         : base($"Product with ID '{productId}' not found.", innerException)
     {

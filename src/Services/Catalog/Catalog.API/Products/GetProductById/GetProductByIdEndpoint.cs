@@ -1,10 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace Catalog.API.Models.Products.GetProductById;
-
-public record GetProductByIdRequest(
-    Guid ProductId
-);
 
 public record GetProductByIdResponse(
     Product Product
