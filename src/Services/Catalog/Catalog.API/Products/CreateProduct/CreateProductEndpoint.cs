@@ -20,10 +20,18 @@ public class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, IMediator mediator) =>
         {
-            var command = request.Adapt<CreateProductCommand>();
-            var result = await mediator.Send(command);
-            var response = result.Adapt<CreateProductResponse>();
-            return Results.Created($"/products/{response.Id}", response);
+            try
+            {
+                var command = request.Adapt<CreateProductCommand>();
+                var result = await mediator.Send(command);
+                var response = result.Adapt<CreateProductResponse>();
+                return Results.Created($"/products/{response.Id}", response);
+            }
+            catch (ValidationException ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
+
         })
         .WithName("CreateProduct")
             .Produces<CreateProductResponse>(StatusCodes.Status201Created)
