@@ -16,7 +16,7 @@ public record CreateProductResult(
 );
 
 //injecting Marten's IDocumentSession to handle database operations
-internal class CreateProductCommandHandler(IDocumentSession session) : IRequestHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger) : IRequestHandler<CreateProductCommand, CreateProductResult>
 {
 
     public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -30,9 +30,12 @@ internal class CreateProductCommandHandler(IDocumentSession session) : IRequestH
             Price = request.Price
         };
 
-        Console.WriteLine($"Creating product: {product.Name} with price: {product.Price}");
+        logger.LogInformation("Creating product with details: {@Product}", product);
+
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);
+        logger.LogInformation("Product saved successfully.");
         return new CreateProductResult(product.Id);
+
     }
 }
