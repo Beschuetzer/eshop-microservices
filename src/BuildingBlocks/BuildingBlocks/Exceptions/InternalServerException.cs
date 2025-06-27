@@ -1,13 +1,13 @@
 namespace BuildingBlocks.Exceptions;
 
-public class InvalidServerException : Exception
+public class InternalServerException : Exception
 {
-    public InvalidServerException(string message)
+    public InternalServerException(string message)
         : base(message)
     {
     }
 
-    public InvalidServerException(string message, string details)
+    public InternalServerException(string message, string details)
         : base(message)
     {
         Details = details;
