@@ -21,9 +21,15 @@ builder.Services.AddCarter();
 
 builder.Services.AddMarten(config =>
 {
-    Console.WriteLine($"Using connection string: {builder.Configuration.GetConnectionString("Database")}");
     config.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
+
+// Seeding the database with initial data in development mode
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
