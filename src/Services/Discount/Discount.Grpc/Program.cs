@@ -8,8 +8,8 @@ builder.Services.AddGrpc();
 var app = builder.Build();
 
 //configure sqlite database
-builder.Services.AddDbContext<DiscountContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DiscountConnection")));    
+//builder.Services.AddDbContext<DiscountContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DiscountConnection")));    
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<DiscountService>();
