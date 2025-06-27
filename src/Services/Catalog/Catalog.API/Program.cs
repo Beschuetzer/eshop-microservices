@@ -13,6 +13,7 @@ builder.Services.AddMediatR(config =>
 
     //adding pipeline behaviors from the building blocks lib
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(assembly);
