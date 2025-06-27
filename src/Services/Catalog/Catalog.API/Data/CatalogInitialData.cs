@@ -1,21 +1,19 @@
 
 namespace Catalog.API.Data;
 
+// This is used to seed the initial data into the Marten document store for Catalog.API.
 public class CatalogInitialData : IInitialData
 {
     public async Task Populate(IDocumentStore store, CancellationToken cancellation)
     {
         using var session = store.LightweightSession();
-
-        if (await session.Query<Product>().AnyAsync())
-            return;
-
-        // Marten UPSERT will cater for existing records
-        session.Store<Product>(GetPreconfiguredProducts());
+        await AddProducts(session);
         await session.SaveChangesAsync();
     }
 
-    private static IEnumerable<Product> GetPreconfiguredProducts() => new List<Product>()
+    private static async Task<IEnumerable<Product>> AddProducts(IDocumentSession session)
+    {
+        var products = new List<Product>()
             {
                 new Product()
                 {
@@ -82,4 +80,20 @@ public class CatalogInitialData : IInitialData
                 }
             };
 
+        var productsIdInDatabase = await session.Query<Product>()
+            .Select(p => p.Id)
+            .ToListAsync();
+        foreach (var product in products)
+        {
+            //only add the product if it doesn't already exist in the database.
+            if (!productsIdInDatabase.Contains(product.Id))
+            {
+                session.Store(product);
+
+            }
+        }
+
+        return products;
+
+    }
 }
