@@ -2,9 +2,10 @@
 
 public class OrderItem : Entity<OrderItemId>
 {
+    // All responsibilities of OrderItem lie on the Order aggregate root, so this class is internal.  
     internal OrderItem(OrderId orderId, ProductId productId, int quantity, decimal price)
     {
-        //Id = OrderItemId.Of(Guid.NewGuid());
+        Id = OrderItemId.Of(Guid.NewGuid());
         OrderId = orderId;
         ProductId = productId;
         Price = price;
