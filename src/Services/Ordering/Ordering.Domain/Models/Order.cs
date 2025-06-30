@@ -1,6 +1,6 @@
 ﻿namespace Ordering.Domain.Models;
 
-internal class Order : Aggregate<OrderId>
+public class Order : Aggregate<OrderId>
 {
     private readonly List<OrderItem> _orderItems = [];
     public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
@@ -36,7 +36,7 @@ internal class Order : Aggregate<OrderId>
             Status = OrderStatus.Pending
         };
 
-        AddDomainEvent(new OrderCreatedEvent(order));
+        order.AddDomainEvent(new OrderCreatedEvent(order));
 
         return order;
     }
@@ -48,7 +48,7 @@ internal class Order : Aggregate<OrderId>
         Payment = payment;
         Status = status;
 
-        AddDomainEvent(new OrderedUpdatedEvent(this));
+        AddDomainEvent(new OrderUpdatedEvent(this));
     }
 
     public void Add(ProductId productId, int quantity, decimal price)

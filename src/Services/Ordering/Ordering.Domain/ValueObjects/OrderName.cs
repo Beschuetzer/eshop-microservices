@@ -1,6 +1,6 @@
 ﻿namespace Ordering.Domain.ValueObjects;
 
-internal record OrderName
+public record OrderName
 {
     private const int DefaultLength = 5;
     public string Value { get; }
