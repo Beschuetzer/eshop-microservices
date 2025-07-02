@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "Multiple Services",
+    "Projects": [
+      {
+        "Path": "Services\\Catalog\\Catalog.API\\Catalog.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Services\\Ordering\\Ordering.API\\Ordering.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Services\\Basket\\Basket.API\\Basket.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Services\\Discount\\Discount.Grpc\\Discount.Grpc.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
